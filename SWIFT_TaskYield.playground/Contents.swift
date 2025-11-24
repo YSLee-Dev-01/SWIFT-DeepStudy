@@ -53,8 +53,23 @@ class SettingManager {
 }
 
 
+/// 하단 코드는 양보 없이 순차적으로 실행됨
+///- yield는 이미 생성되어 대기 중인 Task에게 양보하는 키워드이기 때문
+///-> process2, 3는 await로 인해 process 1이 완료될 때 까지 Task로 실행 조차 되지 않음
+
+//Task {
+//    let settingManager = SettingManager()
+//    print("1️⃣")
+//    
+//    await settingManager.process1()
+//    await settingManager.process2()
+//    await settingManager.process3()
+//    print("---------------")
+//}
+
 Task {
     let settingManager = SettingManager()
+    print("2️⃣")
     
     async let p1 = settingManager.process1()
     async let p2 = settingManager.process2()
