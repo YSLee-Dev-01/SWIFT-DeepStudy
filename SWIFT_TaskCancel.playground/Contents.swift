@@ -19,6 +19,9 @@ import PlaygroundSupport
 ///
 /// = Task.cancel()은 취소 개념이며, await 함수에 따라 실행을 취소하고 에러를 리턴하지만,
 /// 하단 구문의 실행을 막지는 않음
+///
+/// + Task가 비구조화적으로 중첩되어 있을 때 부모 Task가 cancel() 된다고 해서 자식 Task까지 cancel() 되는 것은 아님
+/// - 비구조화적인 Task이기 때문 (우선순위, context 등은 상속 받음) (자세한 공부는 TaskGroup에서 진행!)
 
 /// 예제별로 주석을 풀어서 확인하기!
 
@@ -55,7 +58,6 @@ Task {
         task.cancel()
     }
     
-    let _ = await task.value
     print("🔚 Task 함수 종료")
 }
 
@@ -94,3 +96,28 @@ Task {
 //}
 //
 ///// task.cancel은 actor의 접근을 취소하지는 않음
+
+//print("3️⃣ 세 번째 예제")
+//let parentTask = Task {
+//    print("🎬 👨 부모 Task 시작")
+//    
+//    let childTask = Task {
+//        print("🎬 👶 자식 Task 시작")
+//        
+//        for i in 1...5 {
+//            try? await Task.sleep(for: .milliseconds(900))
+//            print("👶 자식 - \(i)")
+//        }
+//        
+//        print("🔚 👶 자식 Task 종료")
+//    }
+//    
+//    try? await Task.sleep(for: .seconds(5))
+//    print("🔚 👨 부모 Task 완료")
+//}
+//
+//Task {
+//    try await Task.sleep(for: .seconds(2))
+//    print("✋ 부모 Task.cancel() 호출")
+//    parentTask.cancel()
+//}
