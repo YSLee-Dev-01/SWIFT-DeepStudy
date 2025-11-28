@@ -44,7 +44,20 @@ import AsyncAlgorithms
 /// - RxSwift의 Observable - subject와 비슷
 /// -> Observable = AsyncStream
 /// -> AsyncChannel = PublishSubject
-
+///
+///  SwiftUI 추가 개념
+///  .task(id:)
+///  - view가 나타날 때, id 값이 변경될 때 실행됨
+///  - id 값에 변화가 있는 경우 이전 task를 자동 취소함
+///  + task에 id값을 주지 않으면, 값 비교 없이 view가 나타날 때 실행하며, 사라질 때 취소함
+/// - 내부에서 await 함수를 사용할 수 있음
+///
+/// onChange
+/// - 값이 변경될 때만 실행됨 (초기 실행 없음)
+/// - 값에 변화가 일어나더라도 기존 작업을 취소하지 않음
+/// - 이전 값을 사용할 수 있는 프로퍼티를 제공함
+/// - 내부에서 await 함수를 사용할 수 없음 (별도 Task 필요)
+///
 struct ContentView: View {
     private let queryChannel = AsyncChannel<String>()
     @State private var query: String = ""
