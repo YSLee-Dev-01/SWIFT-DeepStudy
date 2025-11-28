@@ -20,6 +20,10 @@ import PlaygroundSupport
 /// = Task.cancel()은 취소 개념이며, await 함수에 따라 실행을 취소하고 에러를 리턴하지만,
 /// 하단 구문의 실행을 막지는 않음
 ///
+/// + Task.cancel() 자체는 하단 구문의 실행을 막지는 않지만,
+/// await 함수가 CancellationError를 throw 하면
+/// 에러 처리가 없는 경우 종료될 수 있음 (하단 구문 실행이 되지 않을 수 있음) (에러에 의한 종료)
+///
 /// + Task가 비구조화적으로 중첩되어 있을 때 부모 Task가 cancel() 된다고 해서 자식 Task까지 cancel() 되는 것은 아님
 /// - 비구조화적인 Task이기 때문 (우선순위, context 등은 상속 받음) (자세한 공부는 TaskGroup에서 진행!)
 
