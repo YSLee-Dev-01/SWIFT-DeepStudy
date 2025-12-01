@@ -26,6 +26,13 @@ import PlaygroundSupport
 ///
 /// + Task가 비구조화적으로 중첩되어 있을 때 부모 Task가 cancel() 된다고 해서 자식 Task까지 cancel() 되는 것은 아님
 /// - 비구조화적인 Task이기 때문 (우선순위, context 등은 상속 받음) (자세한 공부는 TaskGroup에서 진행!)
+///
+/// withTaskCancellationHandler
+/// - task가 cancel 되었을 때 특정 클로저를 실행시키고 싶을 때 사용하는 함수
+/// - Task.cancel()을 실행하더라도 명시적 취소를 지원하지 않는 경우 취소를 감지하지 않기 때문에 함수가 계속 진행됨
+/// -> withTaskCancellationHandler는 task의 cancel 이벤트를 감지하고, onCancel 클로저를 통해 취소를 전달할 수 있음
+/// 클로저 내부에서 await로 작업을 진행 중일 때 cancel을 감지함
+/// - 이미 클로저를 벗어난 경우에는 (작업이 끝난 경우) 감지하지 않음
 
 /// 예제별로 주석을 풀어서 확인하기!
 
@@ -124,4 +131,32 @@ Task {
 //    try await Task.sleep(for: .seconds(2))
 //    print("✋ 부모 Task.cancel() 호출")
 //    parentTask.cancel()
+//}
+
+//print("4️⃣ 네 번째 예제")
+//
+//var workItem: DispatchWorkItem?
+//let task = Task {
+//    print("🎬 Task 시작")
+//    
+//    await withTaskCancellationHandler {
+//        workItem = DispatchWorkItem {
+//            print("💬 타이머 실행됨")
+//        }
+//        
+//        DispatchQueue.global().asyncAfter(deadline: .now() + 3, execute: workItem!)
+//        
+//        try? await Task.sleep(for: .seconds(5)) // 클로저 내부에서 정지하도록 대기
+//    } onCancel: {
+//        print("⏰ 타이머 종료")
+//        workItem?.cancel()
+//    }
+//    
+//    print("🔚 Task 종료")
+//}
+//
+//Task {
+//    try? await Task.sleep(for: .seconds(1))
+//    print("✋ task.cancel() 호출")
+//    task.cancel()
 //}
