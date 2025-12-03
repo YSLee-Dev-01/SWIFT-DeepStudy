@@ -23,7 +23,7 @@ count = 1000
 closure2()
 
 /// 클로저는 참조타입이기 때문에 heap 메모리에 저장됨
-/// - 변수는 캡처리스트 사용 유무, 값/참조 타입 유무에 따라 다름
+/// - 클로저 내부에서 사용하는 변수는 캡처리스트 사용 유무, 값/참조 타입 유무에 따라 다름
 ///
 /// 캡처리스트 X
 /// 값타입
@@ -62,8 +62,8 @@ class Pet {
 }
 
 func closure3Create() -> (() -> ()) {
-    var 유재석 = Person(name: "유재석", old: 20)
-    var 뽀삐 = Pet(name: "뽀삐", old: 5)
+    var 유재석 = Person(name: "유재석", old: 20) // stack -> heap
+    var 뽀삐 = Pet(name: "뽀삐", old: 5) // stack -> heap
     
     print("3️⃣ 함수 시작")
     print(유재석.name, 유재석.old)
