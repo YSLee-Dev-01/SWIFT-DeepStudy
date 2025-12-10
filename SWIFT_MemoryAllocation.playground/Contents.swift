@@ -71,13 +71,13 @@ struct Size: View { // 32바이트 - 4 words - heap 사용
 }
 
 struct MainView {
-    // inline 방식
+    // 기본 stack
     var point: View // stack에 할당
     var size: View // heap에 할당
 }
 
 class SubView {
-    // inline 방식 X
+    // 기본 heap
     var point: View // heap에 할당
     var size: View // heap에 할당
     
