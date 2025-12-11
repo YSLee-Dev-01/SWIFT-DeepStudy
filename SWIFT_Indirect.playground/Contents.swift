@@ -16,7 +16,13 @@ import PlaygroundSupport
 /// -> 간접 참조를 사용할 경우 해당 case는 stack이 아닌 heap 메모리에 할당하고 포인터로 참조하게 됨
 /// -> 오버헤드가 발생할 수 있음
 ///
-///-  트리, 연결리스트, AST 같은 재귀구조에 많이 사용됨
+///- 트리, 연결리스트, AST 같은 재귀구조에 많이 사용됨
+///- Indirect를 사용하면 컴파일러는 자동으로 Box<T>와 같은 구조를 만들어줌
+///
+/// Box 패턴
+/// - 값 타입을 참조타입(Class)로 감싸서 간접 참조를 만드는 패턴
+/// - Box는 heap에 할당되고, 내부 값 타입은 inline 방식으로 새로운 메모리를 할당하지 않고, 부모의 heap 메모리에 그대로 할당됨
+/// + Indirect를 사용하지 않고 Box 패턴을 통해서 재귀가 가능한 enum을 만들 수도 있음
 
 indirect enum Expression {
     case number(Int)
